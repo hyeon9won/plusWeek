@@ -14,13 +14,9 @@ public class UserService {
         String username = userRequestDto.getUsername();
         String password = passwordEncoder.encode(userRequestDto.getPassword());
 
-        System.out.println("여기 1");
-
         if (userRepository.findByUsername(username).isPresent()) {
             throw new IllegalArgumentException("This username is already used.");
         }
-
-        System.out.println("여기 2");
 
         if (isPasswordValid(userRequestDto)) {
             throw new IllegalArgumentException("Password cannot be contain the username.");
@@ -33,7 +29,6 @@ public class UserService {
         User user = new User(username, password);
         userRepository.save(user);
 
-        System.out.println("여기 3");
     }
 
     public void login(UserRequestDto userRequestDto) {
