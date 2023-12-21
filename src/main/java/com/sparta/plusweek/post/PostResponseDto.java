@@ -25,4 +25,8 @@ public class PostResponseDto extends CommonResponseDto {
         this.user = new UserResponseDto(post.getUser());
         this.createDate = post.getCreateDate();
     }
+
+    public PostResponseDto(String message, Integer statusCode) {
+        super(message, statusCode);
+    }
 }

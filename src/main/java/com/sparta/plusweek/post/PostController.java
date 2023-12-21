@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.RejectedExecutionException;
+
 @RequestMapping("/api/posts")
 @RestController
 @RequiredArgsConstructor
@@ -30,6 +32,15 @@ public class PostController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
         }
+    }
 
+    @PutMapping("/{postId}")
+    public ResponseEntity<PostResponseDto> putPost(@PathVariable Long postId, @RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        try {
+            PostResponseDto postResponseDto = postService.updatePost(postId, postRequestDto, userDetails.getUser());
+            return ResponseEntity.ok().body(postResponseDto);
+        } catch (RejectedExecutionException | IllegalArgumentException ex) {
+            return ResponseEntity.badRequest().body(new PostResponseDto(ex.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
     }
 }
