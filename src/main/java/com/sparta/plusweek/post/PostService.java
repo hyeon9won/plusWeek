@@ -14,9 +14,18 @@ public class PostService {
         Post post = new Post(postRequestDto);
         post.setUser(user);
 
-        var saved = postRepository.save(post);
+        Post saved = postRepository.save(post);
 
         return new PostResponseDto(saved);
     }
 
+    public PostResponseDto getPostDto(Long postId) {
+        Post post = getPost(postId);
+        return new PostResponseDto(post);
+    }
+
+    private Post getPost(Long postId) {
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+    }
 }

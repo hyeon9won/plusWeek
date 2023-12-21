@@ -1,13 +1,12 @@
 package com.sparta.plusweek.post;
 
+import com.sparta.plusweek.CommonResponseDto;
 import com.sparta.plusweek.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/posts")
 @RestController
@@ -23,4 +22,14 @@ public class PostController {
         return ResponseEntity.status(201).body(postResponseDto);
     }
 
+    @GetMapping("/{postId}")
+    public ResponseEntity<CommonResponseDto> getPost(@PathVariable Long postId) {
+        try {
+            PostResponseDto postResponseDto = postService.getPostDto(postId);
+            return ResponseEntity.ok().body(postResponseDto);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));
+        }
+
+    }
 }
