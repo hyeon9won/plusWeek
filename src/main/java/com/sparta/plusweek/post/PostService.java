@@ -44,7 +44,8 @@ public class PostService {
         postRepository.deleteById(postId);
     }
 
-    private Post getPost(Long postId) {
+    public Post getPost(Long postId) {
+
         return postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
     }

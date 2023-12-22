@@ -1,15 +1,15 @@
 package com.sparta.plusweek.post;
 
 import com.sparta.plusweek.user.User;
+import com.sparta.plusweek.comment.Comment;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Entity
@@ -33,6 +33,9 @@ public class Post implements Serializable {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> comments;
 
     public Post(PostRequestDto postRequestDto) {
         this.title = postRequestDto.getTitle();
