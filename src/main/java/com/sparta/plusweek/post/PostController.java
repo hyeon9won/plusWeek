@@ -1,6 +1,7 @@
 package com.sparta.plusweek.post;
 
 import com.sparta.plusweek.CommonResponseDto;
+import com.sparta.plusweek.comment.Comment;
 import com.sparta.plusweek.user.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.concurrent.RejectedExecutionException;
 
 @RequestMapping("/api/posts")
@@ -27,7 +29,9 @@ public class PostController {
     @GetMapping("/{postId}")
     public ResponseEntity<CommonResponseDto> getPost(@PathVariable Long postId) {
         try {
-            PostResponseDto postResponseDto = postService.getPostDto(postId);
+            Post post = postService.getPost(postId);
+
+            PostResponseDto postResponseDto = new PostResponseDto(post);
             return ResponseEntity.ok().body(postResponseDto);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(new CommonResponseDto(e.getMessage(), HttpStatus.BAD_REQUEST.value()));

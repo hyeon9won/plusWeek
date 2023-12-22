@@ -2,6 +2,7 @@ package com.sparta.plusweek.post;
 
 import com.sparta.plusweek.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ public class PostService {
 
         return new PostResponseDto(saved);
     }
+
 
     public PostResponseDto getPostDto(Long postId) {
         Post post = getPost(postId);
@@ -44,8 +46,9 @@ public class PostService {
         postRepository.deleteById(postId);
     }
 
+    @Transactional
+    @EntityGraph(attributePaths = "comments")
     public Post getPost(Long postId) {
-
         return postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
     }
