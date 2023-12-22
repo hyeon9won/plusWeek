@@ -40,10 +40,10 @@ public class CommentService {
 
     private Comment getUserComment(Long commentId, User user) {
         Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 댓글입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("This comment is not exist."));
 
         if(!user.getId().equals(comment.getUser().getId())) {
-            throw new RejectedExecutionException("작성자만 수정할 수 있습니다.");
+            throw new RejectedExecutionException("Only authors can modify it.");
         }
         return comment;
     }

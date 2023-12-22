@@ -21,11 +21,11 @@ public class Post implements Serializable {
     private Long id;
 
     @Column
-    @Size(min = 2, max = 500, message = "제목은 2 ~ 500자 이내로 입력해야 합니다.")
+    @Size(min = 2, max = 500, message = "title must be up to 10 characters long.")
     private String title;
 
     @Column
-    @Size(min = 2, max = 5000, message = "내용은 2 ~ 5,000자 이내로 입력해야 합니다.")
+    @Size(min = 2, max = 5000, message = "Content must be up to 10 characters long.")
     private String content;
 
     @Column

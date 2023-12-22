@@ -41,7 +41,7 @@ public class PostService {
 
     public void deletePost(Long postId) {
         postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("This post is not exist."));
 
         postRepository.deleteById(postId);
     }
@@ -50,14 +50,14 @@ public class PostService {
     @EntityGraph(attributePaths = "comments")
     public Post getPost(Long postId) {
         return postRepository.findById(postId)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("This post is not exist."));
     }
 
     public Post getUserPost(Long postId, User user) {
         Post post = getPost(postId);
 
         if (!user.getId().equals(post.getUser().getId())) {
-            throw new RejectedExecutionException("작성자만 수정할 수 있습니다.");
+            throw new RejectedExecutionException("Only authors can modify it.");
         }
         return post;
     }
