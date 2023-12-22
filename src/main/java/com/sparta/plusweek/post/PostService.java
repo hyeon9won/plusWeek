@@ -37,6 +37,13 @@ public class PostService {
         return new PostResponseDto(post);
     }
 
+    public void deletePost(Long postId) {
+        postRepository.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
+
+        postRepository.deleteById(postId);
+    }
+
     private Post getPost(Long postId) {
         return postRepository.findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
@@ -45,7 +52,7 @@ public class PostService {
     public Post getUserPost(Long postId, User user) {
         Post post = getPost(postId);
 
-        if(!user.getId().equals(post.getUser().getId())) {
+        if (!user.getId().equals(post.getUser().getId())) {
             throw new RejectedExecutionException("작성자만 수정할 수 있습니다.");
         }
         return post;
